@@ -1,0 +1,88 @@
+<div class="research-container">
+    <div class="search-section">
+        <mat-card>
+            <mat-card-content>
+                <div class="search-form">
+                    <mat-form-field appearance="outline" class="search-input">
+                        <mat-label>Search employees by name or role</mat-label>
+                        <input matInput [formControl]="searchControl" placeholder="e.g., Software Engineer or John Doe">
+                        <mat-icon matPrefix>search</mat-icon>
+                        <button mat-icon-button matSuffix *ngIf="searchControl.value" (click)="searchControl.setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+                    </mat-form-field>
+
+                    <button mat-raised-button color="primary" (click)="onSearch()" [disabled]="isLoading">
+            <mat-icon>search</mat-icon>
+            Search
+          </button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div class="results-section" *ngIf="searchControl.value">
+        <div class="loading-spinner" *ngIf="isLoading">
+            <mat-spinner diameter="40"></mat-spinner>
+        </div>
+
+        <ng-container *ngIf="!isLoading">
+            <div class="results-grid" *ngIf="(employees$ | async)?.length; else noResults">
+                <mat-card class="employee-card" *ngFor="let employee of employees$ | async">
+                    <mat-card-header>
+                        <div mat-card-avatar class="avatar">
+                            {{ employee.name.charAt(0) }}
+                        </div>
+                        <mat-card-title>{{ employee.name }}</mat-card-title>
+                        <mat-card-subtitle>{{ employee.role }}</mat-card-subtitle>
+                    </mat-card-header>
+
+                    <mat-card-content>
+                        <!-- <app-match-score [score]="employee.matchScore.total" [breakdown]="employee.matchScore.breakdown" [explanations]="employee.matchScore.explanation"> -->
+                        <!-- </app-match-score> -->
+
+                        <div class="employee-info">
+                            <p>
+                                <mat-icon>work</mat-icon>
+                                <span>{{ formatExperience(employee.experience) }}</span>
+                            </p>
+                            <p>
+                                <mat-icon>business</mat-icon>
+                                <span>{{ employee.department }}</span>
+                            </p>
+                            <p>
+                                <mat-icon>source</mat-icon>
+                                <span>{{ employee.source }}</span>
+                            </p>
+                            <p *ngIf="employee.location">
+                                <mat-icon>location_on</mat-icon>
+                                <span>{{ employee.location }}</span>
+                            </p>
+                        </div>
+
+                        <!-- <mat-chip-list *ngIf="employee.skills?.length" aria-label="Skills">
+              <mat-chip *ngFor="let skill of employee.skills.slice(0, 3)">{{ skill }}</mat-chip>
+              <span *ngIf="employee.skills.length > 3" class="more-skills">
+                +{{ employee.skills.length - 3 }} more
+              </span>
+            </mat-chip-list> -->
+                    </mat-card-content>
+
+                    <mat-card-actions align="end">
+                        <button mat-button color="primary" (click)="openProfile(employee.profileUrl)">
+              <mat-icon>open_in_new</mat-icon>
+              View Profile
+            </button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+
+            <ng-template #noResults>
+                <div class="no-results" *ngIf="!isLoading">
+                    <mat-icon>search_off</mat-icon>
+                    <p>No employees found matching your search criteria</p>
+                </div>
+            </ng-template>
+        </ng-container>
+    </div>
+</div>

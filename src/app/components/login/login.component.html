@@ -1,0 +1,49 @@
+<h1 class="visually-hidden">Login</h1>
+
+
+<div class="login-container">
+    <mat-card class="login-card">
+        <div class="form-header">
+            <h1>Welcome Back</h1>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="Enter your email">
+                <mat-error *ngIf="loginForm.get('email')?.invalid">
+                    {{ getErrorMessage('email') }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Enter your password">
+                <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+                <mat-error *ngIf="loginForm.get('password')?.invalid">
+                    {{ getErrorMessage('password') }}
+                </mat-error>
+            </mat-form-field>
+
+            <div class="form-actions">
+                <div class="remember-forgot">
+                    <mat-checkbox formControlName="rememberMe" class="remember-me">
+                        Remember me
+                    </mat-checkbox>
+                    <a routerLink="/forgot-password" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading">
+          <span *ngIf="!isLoading">Login</span>
+          <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+        </button>
+
+                <div class="register-link">
+                    Don't have an account? <a routerLink="/register">Register here</a>
+                </div>
+            </div>
+        </form>
+    </mat-card>
+</div>

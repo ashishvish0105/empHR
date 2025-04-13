@@ -1,0 +1,127 @@
+<div class="profile-container">
+  <mat-card class="profile-card" *ngIf="!isLoading; else loading">
+    <mat-card-header>
+      <div class="profile-header">
+        <div class="profile-picture-container">
+          <img [src]="profile?.profilePicture || 'assets/images/default-avatar.png'" 
+               alt="Profile picture"
+               class="profile-picture">
+          <button mat-mini-fab color="primary" class="change-picture-button">
+            <mat-icon>photo_camera</mat-icon>
+            <input type="file" (change)="onProfilePictureSelected($event)" accept="image/*">
+          </button>
+        </div>
+        <div class="profile-info">
+          <h1>{{ profile?.fullName }}</h1>
+          <p class="role">{{ profile?.role }}</p>
+        </div>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-tab-group>
+        <!-- Profile Information Tab -->
+        <mat-tab label="Profile Information">
+          <form [formGroup]="profileForm" (ngSubmit)="onProfileSubmit()" class="profile-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Full Name</mat-label>
+              <input matInput formControlName="fullName" placeholder="Enter your full name">
+              <mat-error *ngIf="profileForm.get('fullName')?.hasError('required')">
+                Full name is required
+              </mat-error>
+              <mat-error *ngIf="profileForm.get('fullName')?.hasError('minlength')">
+                Full name must be at least 2 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" placeholder="Enter your email" type="email">
+              <mat-error *ngIf="profileForm.get('email')?.hasError('required')">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="profileForm.get('email')?.hasError('email')">
+                Please enter a valid email address
+              </mat-error>
+            </mat-form-field>
+
+            <div class="form-actions">
+              <button mat-raised-button color="primary" type="submit" 
+                      [disabled]="profileForm.invalid || isSaving">
+                <mat-icon>save</mat-icon>
+                {{ isSaving ? 'Saving...' : 'Save Changes' }}
+              </button>
+            </div>
+          </form>
+        </mat-tab>
+
+        <!-- Change Password Tab -->
+        <mat-tab label="Change Password">
+          <form [formGroup]="passwordForm" (ngSubmit)="onPasswordSubmit()" class="password-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Current Password</mat-label>
+              <input matInput type="password" formControlName="currentPassword">
+              <mat-error>{{getPasswordErrorMessage('currentPassword')}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>New Password</mat-label>
+              <input matInput type="password" formControlName="newPassword">
+              <mat-error>{{getPasswordErrorMessage('newPassword')}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Confirm New Password</mat-label>
+              <input matInput type="password" formControlName="confirmPassword">
+              <mat-error>{{getPasswordErrorMessage('confirmPassword')}}</mat-error>
+            </mat-form-field>
+
+            <div class="form-actions">
+              <button mat-raised-button color="primary" type="submit"
+                      [disabled]="passwordForm.invalid || isChangingPassword">
+                <mat-icon>lock</mat-icon>
+                {{ isChangingPassword ? 'Updating...' : 'Update Password' }}
+              </button>
+            </div>
+          </form>
+        </mat-tab>
+
+        <!-- Notification Preferences Tab -->
+        <mat-tab label="Notification Preferences">
+          <form [formGroup]="notificationForm" class="notification-form">
+            <h3>Email Notifications</h3>
+            <mat-selection-list>
+              <mat-list-item>
+                <mat-checkbox formControlName="emailNotifications" (change)="onNotificationChange()">
+                  General email notifications
+                </mat-checkbox>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-checkbox formControlName="searchAlerts" (change)="onNotificationChange()">
+                  Search alerts and matches
+                </mat-checkbox>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-checkbox formControlName="weeklyDigest" (change)="onNotificationChange()">
+                  Weekly digest of activities
+                </mat-checkbox>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-checkbox formControlName="newFeatures" (change)="onNotificationChange()">
+                  New features and updates
+                </mat-checkbox>
+              </mat-list-item>
+            </mat-selection-list>
+          </form>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+
+  <ng-template #loading>
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+      <p>Loading profile...</p>
+    </div>
+  </ng-template>
+</div> 

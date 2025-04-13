@@ -1,0 +1,177 @@
+.saved-profiles-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 500;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+
+      button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+    }
+  }
+
+  .profiles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+
+    mat-card {
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      position: relative;
+      overflow: hidden;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      &.selected {
+        border: 2px solid var(--primary-color);
+        background-color: rgba(var(--primary-rgb), 0.05);
+      }
+
+      mat-card-header {
+        margin-bottom: 16px;
+        position: relative;
+
+        mat-card-title {
+          font-size: 1.2rem;
+          margin-bottom: 4px;
+        }
+
+        mat-card-subtitle {
+          font-size: 0.9rem;
+        }
+      }
+
+      .platform-tag {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 4px 8px;
+        border-radius: 4px;
+        color: white;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .profile-details {
+    margin-bottom: 16px;
+
+    p {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+      color: rgba(0, 0, 0, 0.7);
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  .skills-container {
+    margin-bottom: 16px;
+
+    mat-chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  }
+
+  .saved-date {
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.5);
+    margin: 0;
+  }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    gap: 16px;
+
+    p {
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 1.1rem;
+    }
+  }
+
+  .no-profiles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
+
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: rgba(0, 0, 0, 0.2);
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.7);
+    }
+
+    p {
+      margin: 0;
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 600px) {
+  .saved-profiles-container {
+    padding: 16px;
+
+    .header {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+
+      .actions {
+        flex-direction: column;
+      }
+    }
+
+    .profiles-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+} 

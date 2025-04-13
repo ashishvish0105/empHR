@@ -1,0 +1,49 @@
+<div class="saved-profiles">
+  <div class="actions">
+    <button mat-raised-button color="primary" [disabled]="selectedProfiles.size === 0" (click)="exportSelected()">
+      Export Selected
+    </button>
+    <button mat-raised-button color="warn" [disabled]="selectedProfiles.size === 0" (click)="deleteSelected()">
+      Delete Selected
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="loading-spinner">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <div class="profile-grid" *ngIf="!loading">
+    <mat-card *ngFor="let profile of profiles" class="profile-card">
+      <mat-checkbox
+        class="selection-checkbox"
+        [checked]="selectedProfiles.has(profile.id)"
+        (change)="toggleSelection(profile.id)">
+      </mat-checkbox>
+
+      <mat-card-header>
+        <mat-card-title>{{ profile.name }}</mat-card-title>
+        <mat-card-subtitle>{{ profile.title }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="platform-tags">
+          <mat-chip *ngFor="let platform of profile.platforms">
+            {{ platform }}
+          </mat-chip>
+        </div>
+
+        <div class="skills-list">
+          <mat-chip-listbox>
+            <mat-chip *ngFor="let skill of profile.skills">
+              {{ skill }}
+            </mat-chip>
+          </mat-chip-listbox>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div> 

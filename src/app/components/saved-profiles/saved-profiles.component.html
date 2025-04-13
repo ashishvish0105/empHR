@@ -1,0 +1,74 @@
+<div class="saved-profiles-container">
+    <div class="header">
+        <h1>Saved Profiles</h1>
+        <div class="actions">
+            <button mat-raised-button color="primary" [disabled]="selection.size === 0" (click)="exportSelected()">
+        <mat-icon>file_download</mat-icon>
+        Export Selected
+      </button>
+            <button mat-raised-button color="warn" [disabled]="selection.size === 0" (click)="clearSelection()">
+        <mat-icon>clear</mat-icon>
+        Clear Selection
+      </button>
+        </div>
+    </div>
+
+    <div class="profiles-grid" *ngIf="!isLoading; else loading">
+        <mat-card *ngFor="let profile of profiles" [class.selected]="isSelected(profile.id)" (click)="toggleSelection(profile.id)">
+            <mat-card-header>
+                <mat-card-title>{{ profile.name }}</mat-card-title>
+                <mat-card-subtitle>{{ profile.role }}</mat-card-subtitle>
+                <div class="platform-tag" [style.background-color]="platformColors?.[profile.platform] ?? '#ccc'">
+                    {{ profile.platform }}
+                </div>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div class="profile-details">
+                    <p>
+                        <mat-icon>work</mat-icon> {{ profile.experience }} years</p>
+                    <p *ngIf="profile.location">
+                        <mat-icon>location_on</mat-icon> {{ profile.location }}</p>
+                    <p *ngIf="profile.currentCompany">
+                        <mat-icon>business</mat-icon> {{ profile.currentCompany }}</p>
+                </div>
+
+                <div class="skills-container" *ngIf="profile.skills?.length">
+                    <!-- <mat-chip-list>
+                        <mat-chip *ngFor="let skill of profile.skills?.slice(0, 3)">{{ skill }}</mat-chip>
+                        <mat-chip *ngIf="(profile.skills?.length ?? 0) > 3" color="primary">
+                            +{{ (profile.skills?.length ?? 0) - 3 }}
+                        </mat-chip>
+                    </mat-chip-list> -->
+                </div>
+
+                <p class="saved-date">Saved on {{ formatDate(profile.savedDate ?? '') }}</p>
+            </mat-card-content>
+
+            <mat-card-actions align="end">
+                <a mat-icon-button [href]="profile.profileUrl ?? '#'" target="_blank" (click)="$event.stopPropagation()">
+                    <mat-icon>open_in_new</mat-icon>
+                </a>
+                <button mat-icon-button (click)="exportProfile(profile.id); $event.stopPropagation()">
+          <mat-icon>file_download</mat-icon>
+        </button>
+                <button mat-icon-button color="warn" (click)="deleteProfile(profile, $event); $event.stopPropagation()">
+          <mat-icon>delete</mat-icon>
+        </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+    <ng-template #loading>
+        <div class="loading-container">
+            <mat-spinner></mat-spinner>
+            <p>Loading saved profiles...</p>
+        </div>
+    </ng-template>
+
+    <div class="no-profiles" *ngIf="!isLoading && profiles.length === 0">
+        <mat-icon>folder_open</mat-icon>
+        <h2>No saved profiles yet</h2>
+        <p>Profiles you save will appear here</p>
+    </div>
+</div>

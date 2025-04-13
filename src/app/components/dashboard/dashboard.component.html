@@ -1,0 +1,67 @@
+<div class="dashboard-container">
+    <mat-toolbar color="primary" class="dashboard-toolbar">
+        <span>empHR Dashboard</span>
+        <span class="toolbar-spacer"></span>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="User menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+        <mat-menu #userMenu="matMenu">
+            <button mat-menu-item disabled>
+        <mat-icon>person</mat-icon>
+        <span>{{ userName }}</span>
+      </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+        </mat-menu>
+    </mat-toolbar>
+
+    <div class="dashboard-content">
+        <div class="welcome-section">
+            <h1>Welcome back, {{ userName }}!</h1>
+            <p>Access your employee research tools and saved information below.</p>
+        </div>
+
+        <div class="grid-container">
+            <!-- Navigation Cards -->
+            <div class="navigation-cards">
+                <mat-card *ngFor="let card of navigationCards" class="nav-card" (click)="navigateTo(card.route)">
+                    <mat-card-content>
+                        <div class="card-icon" [style.background-color]="card.color">
+                            <mat-icon>{{ card.icon }}</mat-icon>
+                        </div>
+                        <h2>{{ card.title }}</h2>
+                        <p>{{ card.description }}</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <!-- Recent Searches -->
+            <mat-card class="recent-searches-card">
+                <mat-card-header>
+                    <mat-card-title>Recent Searches</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <!-- <mat-list>
+            <mat-list-item *ngFor="let search of recentSearches">
+              <div class="search-item">
+                <div class="search-info">
+                  <h3 matLine>{{ search.query }}</h3>
+                  <p matLine>
+                    <span class="search-date">{{ formatDate(search.date) }}</span>
+                    <span class="search-results">{{ search.results }} results</span>
+                  </p>
+                </div>
+                <button mat-icon-button color="primary" (click)="navigateTo('/research')">
+                  <mat-icon>refresh</mat-icon>
+                </button>
+              </div>
+            </mat-list-item>
+          </mat-list> -->
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

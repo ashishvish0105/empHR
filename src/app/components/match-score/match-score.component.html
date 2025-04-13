@@ -1,0 +1,18 @@
+<div class="match-score" [matTooltip]="tooltipContent" matTooltipClass="score-tooltip">
+  <div class="score-header">
+    <span class="score-label">Match Score</span>
+    <span class="score-value" [style.color]="scoreColor">{{score}}%</span>
+  </div>
+  
+  <div class="score-bar-container">
+    <div class="score-bar">
+      <div class="score-fill" 
+           [style.width.%]="score"
+           [style.background-color]="scoreColor">
+      </div>
+    </div>
+    <span class="score-description" [style.color]="scoreColor">
+      {{scoreDescription}}
+    </span>
+  </div>
+</div> 

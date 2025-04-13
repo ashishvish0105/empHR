@@ -1,0 +1,70 @@
+.match-score {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.03);
+  cursor: help;
+
+  .score-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+
+    .score-label {
+      font-size: 0.9rem;
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    .score-value {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+  }
+
+  .score-bar-container {
+    .score-bar {
+      height: 6px;
+      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 4px;
+
+      .score-fill {
+        height: 100%;
+        transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+      }
+    }
+
+    .score-description {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+  }
+}
+
+// Dark theme support
+:host-context(.dark-theme) {
+  .match-score {
+    background-color: rgba(255, 255, 255, 0.05);
+
+    .score-header {
+      .score-label {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    .score-bar-container {
+      .score-bar {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+}
+
+// Custom tooltip styles
+::ng-deep .score-tooltip {
+  white-space: pre-line;
+  max-width: none !important;
+  font-size: 0.9rem;
+  line-height: 1.4;
+} 
